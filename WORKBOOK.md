@@ -283,11 +283,11 @@ MCP(Model Context Protocol)는 AI에 바깥 도구를 꽂는 표준 연결입니
 - [ ] 아래 점검표대로 SKILL.md를 읽었다
 - [ ] QWERTY 규칙 줄을 `Comments may be written in Korean.`으로 고쳤다
 - [ ] Copilot Agent 모드에서 `/add-educational-comments warmup/orders.py 한국어로`를 보냈다
-- [ ] `git diff --stat`에 `warmup/orders.py`만 보인다
+- [ ] `git diff --stat`에 `warmup/orders.py`와 내가 고친 `SKILL.md`만 보인다
 - [ ] `.agents/skills/spec-to-tests/SKILL.md`를 열어 읽었다 (세션 2에서 쓴 스킬입니다)
 - [ ] agy에서 `/`를 입력했더니 스킬 목록에 `add-educational-comments`와 `spec-to-tests`가 보인다
 
-성공 기준: `git diff --stat`에 `warmup/orders.py` 한 파일만 나옵니다. 다른 파일이 바뀌었으면 `git restore <파일>`로 되돌립니다.
+성공 기준: `git diff --stat`에 `warmup/orders.py`와 내가 고친 `SKILL.md` 두 파일만 나옵니다. 다른 파일이 바뀌었으면 `git restore <파일>`로 되돌립니다.
 
 설치 전 점검표: 내가 받은 스킬에서 찾은 것을 적습니다.
 
