@@ -18,11 +18,9 @@ flowchart TD
     B -->|"브라우저 화면"| C["화면 표를 본다"]
     B -->|"터미널 메시지"| D["터미널 표를 본다"]
     B -->|"AI가 답이 없거나 한도 초과"| E["AI 도구 문제를 본다"]
-    B -->|"배포 화면"| F["배포 표를 본다"]
     C --> G{"해결됐나"}
     D --> G
     E --> G
-    F --> G
     G -->|아니오| H["손을 들고 강사에게<br/>무엇을 했는지 말한다"]
     G -->|예| I["계속 진행"]
 ```
@@ -36,7 +34,7 @@ flowchart TD
 | "쿠폰 API가 아직 없어요" (쿠폰 버튼) | 정상입니다. 세션 4에서 쿠폰 API를 만들기 전입니다 | `SPEC_COUPON.md`를 보고 AI와 만듭니다. 만든 뒤에도 나오면 서버를 껐다 켜고(`Ctrl+C` → README 블록 ⑥) 주소가 `POST /v1/coupons/issue`인지 확인합니다 |
 | 503 "AI 부품이 준비 중..." | 모델을 내려받는 중이거나 내려받기에 실패했습니다. 모델 저장소 이름이 틀렸을 수도 있습니다 | 잠시 기다린 뒤 다시 누릅니다. 안 되면 인터넷을 확인하고 강사에게 알립니다(모델 저장소 이름 확인). 내 PC에서 `MODEL_REPO`를 직접 입력하는 것은 아닙니다 |
 | "서버에 연결할 수 없어요" | `uvicorn`을 켠 터미널이 꺼졌습니다 | 터미널에서 `uvicorn app.main:app --reload`를 다시 실행합니다 |
-| 처음 한 번만 아주 느리다 | 모델을 처음 내려받는 중입니다 (또는 Render 서버가 잠에서 깨는 중) | 고장이 아닙니다. 기다립니다 |
+| 처음 한 번만 아주 느리다 | 모델을 처음 내려받는 중입니다 | 고장이 아닙니다. 기다립니다 |
 
 ## 터미널에서 보이는 것
 
@@ -67,6 +65,9 @@ pytest 화면 읽는 법은 [pytest 소개](02-pytest.md)에 있습니다.
 | Copilot이 답이 없다 | 로그인 또는 연결 문제 | `docs/01-copilot-guide.md`의 상태 점검 |
 | agy가 답이 없거나 로그인 화면이 계속 나옴 | 로그인 또는 연결 문제 | 내 Google 계정으로 다시 로그인합니다. 비밀번호는 로그인 화면에만 입력합니다. 안 되면 손을 듭니다 |
 | agy 사용 한도가 끝남 | agy 사용량이 끝났습니다 | 아래 "한도가 끝났을 때" |
+| MCP: List Servers에 context7이 없음 | `.vscode/mcp.json` 설정을 못 읽었습니다 | `.vscode/mcp.json`이 저장소 맨 위 `.vscode` 폴더에 있는지, VS Code를 저장소 폴더로 열었는지 확인합니다 |
+| Start 후 Error | 서버가 켜지지 못했습니다 | Show Output에서 원인을 확인합니다. 네트워크 차단이면 강사에게 알립니다 |
+| 신뢰 확인 창 | MCP 서버를 처음 켤 때 나오는 확인입니다 | 주소(`mcp.context7.com`)를 읽고 허락합니다 |
 | 스킬을 열면 `Failed to parse frontmatter` · `Nested mappings are not allowed` | SKILL.md 맨 위 `---` 사이 값에 `: `(콜론+공백)이 들어 있음 | 그 값을 큰따옴표로 감쌉니다. 예: `argument-hint: "함수 이름들 (예: to_label)"` |
 
 ### 한도가 끝났을 때
@@ -121,7 +122,7 @@ flowchart TD
 | `cp1-setup` | AGENTS.md 빈칸이 채워진 상태 | 세션 1 끝 |
 | `cp2-spec` | 공식 `SPEC.md` | 세션 2 명세 단계 |
 | `cp3-tdd` | `app/thermo.py` 구현과 `tests/test_thermo.py` (내가 쓴 테스트 파일은 공식 파일로 바뀝니다) | 세션 2 끝 |
-| `cp4-ship` | `.github/workflows/ci.yml` | 세션 3 |
+| `cp4-tools` | `.agents/skills/add-educational-comments/SKILL.md`의 주석 규칙을 한국어에 맞게 고친 상태 | 세션 3 끝 |
 | `cp5-coupon-spec` | `SPEC_COUPON.md`(쿠폰 API 명세)와 `tests/test_api_coupon.py`(계약 테스트). 쿠폰 코드는 없음 | 세션 4 시작 |
 | `final` | 완성본. 쿠폰 코드와 단위 테스트 예시까지 | 세션 4 끝 |
 
@@ -129,13 +130,4 @@ flowchart TD
 
 ## 회사·학교 네트워크에서 막힐 때
 
-GitHub, Hugging Face, Render 접속이 막힐 수 있습니다. 붙잡고 씨름하지 않습니다. 손을 들고, 강사 화면을 같이 보거나 따라잡기 브랜치로 넘어갑니다.
-
-## 배포(Render)에서 막힐 때
-
-| 증상 | 할 일 |
-|---|---|
-| Build가 실패(빨간 줄) | 로그 맨 아래 빨간 줄을 강사에게 보여 줍니다. Build와 Start 명령을 표와 한 글자씩 비교합니다 |
-| 첫 요청이 느림 | Free 서버는 15분 안 쓰면 잠듭니다. 깨는 데 시간이 걸립니다. 고장이 아닙니다 |
-| 빨간 X인데 배포됨 | Settings → Build & Deploy의 Auto-Deploy가 On Commit입니다. After CI Checks Pass로 바꿉니다. CI 파일은 고치지 않아도 됩니다 |
-| 503 | 잠시 뒤 다시 해 봅니다. 계속되면 강사에게 알립니다(모델 저장소 이름 `MODEL_REPO` 확인). Render 서비스의 Environment 화면에서만 입력하는 값입니다 |
+GitHub, Hugging Face, Context7(mcp.context7.com) 접속이 막힐 수 있습니다. 붙잡고 씨름하지 않습니다. 손을 들고, 강사 화면을 같이 보거나 따라잡기 브랜치로 넘어갑니다.

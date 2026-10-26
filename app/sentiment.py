@@ -48,12 +48,8 @@ def _load() -> tuple[Any, Any, list[str]]:
             from huggingface_hub import hf_hub_download
             from tokenizers import Tokenizer
 
-            # Vercel 서버는 /tmp 에만 파일을 쓸 수 있다 (Render·내 PC는 기본 위치 사용)
-            cache_dir = "/tmp/hf" if os.getenv("VERCEL") else None
-            model_path = hf_hub_download(repo_id=repo, filename=MODEL_FILE, cache_dir=cache_dir)
-            tokenizer_path = hf_hub_download(
-                repo_id=repo, filename=TOKENIZER_FILE, cache_dir=cache_dir
-            )
+            model_path = hf_hub_download(repo_id=repo, filename=MODEL_FILE)
+            tokenizer_path = hf_hub_download(repo_id=repo, filename=TOKENIZER_FILE)
 
             tokenizer = Tokenizer.from_file(tokenizer_path)
             tokenizer.enable_truncation(max_length=MAX_LENGTH)

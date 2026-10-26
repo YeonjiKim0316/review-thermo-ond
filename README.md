@@ -23,6 +23,8 @@ flowchart LR
     D --> E["commit / push"]
 ```
 
+세션 3에서는 이 순서에 "MCP·스킬로 도구 넓히기"를 더합니다.
+
 ## 워크북
 
 수업 활동지는 [WORKBOOK.md](WORKBOOK.md)입니다. VS Code에서 열어 직접 채웁니다.
@@ -40,6 +42,7 @@ flowchart LR
 - AI 채팅에 비밀번호, API 키, 실제 고객 정보, 회사 코드는 넣지 않습니다.
 - agy 로그인 때 Google 비밀번호는 로그인 화면에만 입력합니다. AI 채팅에는 넣지 않습니다.
 - 결제 수단은 어디에도 등록하지 않습니다.
+- MCP 서버를 켤 때 뜨는 신뢰 확인 창에서는 주소를 읽습니다. 오늘 쓰는 주소는 `mcp.context7.com`입니다. 처음 보는 주소는 허락하지 않습니다.
 
 ## 로컬 실행
 
@@ -96,7 +99,7 @@ pytest -v
 
 ## 명령 복사 블록
 
-GitHub 화면에서 코드 블록 오른쪽 위의 복사 버튼으로 복사해 터미널에 붙여 넣습니다. 번호는 수업 슬라이드의 "README ⑥ 복사" 표시와 같습니다. ⑭⑯⑰은 세션 4에서 새로 쓰는 블록입니다.
+GitHub 화면에서 코드 블록 오른쪽 위의 복사 버튼으로 복사해 터미널에 붙여 넣습니다. 번호는 수업 슬라이드의 "README ⑥ 복사" 표시와 같습니다. ⑫⑮는 세션 3에서, ⑭⑯⑰은 세션 4에서 새로 쓰는 블록입니다.
 꺾쇠 `< >`는 빼고 내 값으로 바꿉니다. 예: `<내아이디>`는 `haru123`.
 
 ① 설치 확인 (Mac은 `python --version` 대신 `python3 --version`)
@@ -193,17 +196,19 @@ git fetch origin
 git checkout origin/cp2-spec -- SPEC.md
 ```
 
-⑫ CI 파일 복사 (macOS)
+⑫ MCP 설정 보기 (macOS)
 
 ```bash
-mkdir -p .github/workflows && cp deploy/ci.yml .github/workflows/ci.yml
+cat .vscode/mcp.json
 ```
 
-⑫ CI 파일 복사 (Windows PowerShell)
+⑫ MCP 설정 보기 (Windows PowerShell)
 
 ```powershell
-New-Item -ItemType Directory -Force .github\workflows; Copy-Item deploy\ci.yml .github\workflows\ci.yml
+Get-Content .vscode\mcp.json
 ```
+
+VS Code에서 Ctrl+Shift+P → MCP: List Servers → context7 → Start Server (Mac은 Cmd+Shift+P)
 
 ⑬ 되돌리고 다시 올리기
 
@@ -219,12 +224,33 @@ git fetch origin
 git checkout origin/cp5-coupon-spec -- SPEC_COUPON.md tests/test_api_coupon.py
 ```
 
-⑮ Render 설정값
+⑮ agy MCP 설정 (선택)
 
-```text
-Build Command: pip install -r requirements.txt
-Start Command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+macOS:
+
+```bash
+mkdir -p ~/.gemini/config && code ~/.gemini/config/mcp_config.json
 ```
+
+Windows PowerShell:
+
+```powershell
+New-Item -ItemType Directory -Force "$HOME\.gemini\config"; code "$HOME\.gemini\config\mcp_config.json"
+```
+
+열린 파일에 아래 내용을 붙여 넣습니다.
+
+```json
+{
+  "mcpServers": {
+    "context7": {
+      "serverUrl": "https://mcp.context7.com/mcp"
+    }
+  }
+}
+```
+
+저장한 뒤 agy를 다시 켜고 /mcp 로 확인합니다. 파일에 이미 내용이 있으면 mcpServers 안에 context7 부분만 추가합니다.
 
 ⑯ 수정 범위 확인 (세션 4: 쿠폰. `git restore`는 `tests/`나 `SPEC_COUPON.md`가 바뀌었을 때만)
 
@@ -275,19 +301,5 @@ code -r .
 | 00 (항상) | [개념 노트](docs/00-concepts.md) · [용어 사전](docs/00-glossary.md) · [화면 메시지 사전](docs/00-troubleshooting.md) |
 | 1 | [환경설정 카드](docs/01-setup-card.md) · [Copilot과 agy 사용 안내](docs/01-copilot-guide.md) · [프롬프트 시트](docs/01-prompt-sheet.md) |
 | 2 | [pytest 소개](docs/02-pytest.md) |
-| 3 | [Vercel 배포(대안)](docs/03-vercel.md) |
+| 3 | 별도 문서 없음. 저장소의 `.vscode/mcp.json`과 `.agents/skills/` 폴더를 씁니다 |
 | 4 | [3차 요청서 · 리뷰 클린봇](docs/04-cleanbot-request.md) |
-
-## 배포
-
-push 하면 GitHub Actions가 테스트를 돌립니다. 통과하면 Render가 배포하고, 실패하면 배포하지 않습니다.
-
-```mermaid
-flowchart LR
-    A["git push"] --> B["GitHub Actions<br/>pytest"]
-    B -->|통과| C["Render 배포"]
-    B -->|실패| D["배포 안 함<br/>이전 버전 유지"]
-```
-
-- 배포 URL: (여기에 Render URL 입력)
-- CI 상태: (여기에 GitHub Actions 배지 입력)

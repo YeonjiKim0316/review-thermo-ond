@@ -11,13 +11,13 @@
 3. 미리보기는 `Ctrl+Shift+V`(Mac `Cmd+Shift+V`)입니다. 체크 칸은 `- [ ]`의 빈칸에 x를 넣어 `- [x]`로 바꿉니다. 표의 빈칸은 `|  |`의 두 `|` 사이에 씁니다.
 4. 파일을 저장한 뒤, 세션이 끝날 때마다 commit, push 합니다(README 블록 ⑨).
 
-오늘 수업에서 가상 쇼핑몰 하루마켓의 리뷰 온도계를 AI와 함께 만들고 인터넷에 배포합니다. 코드는 AI가 씁니다. 여러분은 이 칸들을 채우며 무엇을 만들지 정하고, 맞는지 확인하는 일을 연습합니다.
+오늘 수업에서 가상 쇼핑몰 하루마켓의 리뷰 온도계를 AI와 함께 만들고, AI 도구를 넓혀 봅니다. 코드는 AI가 씁니다. 여러분은 이 칸들을 채우며 무엇을 만들지 정하고, 맞는지 확인하는 일을 연습합니다.
 
 | 세션 | 이 워크북에서 채울 것 |
 | --- | --- |
 | 1. AI와 코딩하는 법 | 프롬프트 다시 쓰기, 프리모템(보내기 전 점검)·포스트모템(받은 뒤 기록) 표 |
 | 2. 명세 → 테스트 → 코드 | 같은 부탁 비교, 명세 세 기둥, 수용 기준(완료를 판정하는 문장), 비교표, 내가 직접 쓴 테스트 2개, Red/Green/Refactor(실패/통과/정리) 기록, 수정 범위 확인 |
-| 3. 배포 | 배포 체크리스트, 일부러 깨 보기 기록, 자가 치유(AI가 스스로 고치기) 기록 |
+| 3. AI 도구 넓히기: MCP와 스킬 | MCP 연결 기록, 스킬 받고 읽고 고쳐 쓰기, 자가 치유(AI가 스스로 고치기) 기록, AI가 틀렸을 때 고칠 문서 고르기, AGENTS.md 규칙 추가 |
 | 4. 2차 요청과 마무리 | 모델 관찰표, 쿠폰 API 명세 초안, 계획 확인, 코드 리뷰와 문서화 기록, 업그레이드 카드, 설명 활동, 퀴즈 |
 
 - 정답을 맞히는 시험지가 아닙니다. 빈칸은 내 말로 채웁니다.
@@ -41,7 +41,6 @@ Python, VS Code 확장, agy를 설치합니다. 순서와 명령은 `docs/01-set
 - [ ] Python 3.12, VS Code 확장(`Python`, `GitHub Copilot Chat`), agy(README 블록 ①-2)를 설치했다
 - [ ] 설치 확인 (README 블록 ①): `python --version`(Mac `python3 --version`), `git --version`, `code --version`, `agy --version`에 버전이 나오고, Python이 3.11 이상이다
 - [ ] 프로젝트 폴더 터미널에서 `agy`를 켜고 내 Google 계정으로 로그인했다 (비밀번호는 로그인 화면에만 입력하고, AI 채팅에는 넣지 않는다)
-- [ ] Render 계정을 만들었다 (render.com → GitHub로 가입, 이메일 인증까지, 결제 수단은 넣지 않는다)
 - [ ] 저장소를 받고(README 블록 ②) 가상환경을 켰다(README 블록 ④ macOS · ⑤ Windows)
 - [ ] 서버를 켜고(README 블록 ⑥) 화면에서 분석을 눌렀더니 501이 나온다
 
@@ -108,41 +107,6 @@ Before와 After의 답을 비교해 보니 달라진 점: 답:
 - [ ] AI가 대답한 금지사항이 내가 쓴 것과 맞는지 확인
 
 대화가 길어져 AI가 앞의 조건을 잊으면: 새 채팅(+)을 열고 “먼저 AGENTS.md를 읽어 주세요”로 시작합니다(세션 2부터는 SPEC.md도 함께). 중요한 결정은 대화가 아니라 파일에 남깁니다.
-
-### 1-6. 에이전트 스킬 받고, 읽고, 써 보기
-
-스킬 위치: `.agents/skills/<이름>/SKILL.md` (Copilot과 agy가 함께 읽는 곳입니다)
-
-- [ ] VS Code 탐색기에서 `.agents/skills/add-educational-comments/SKILL.md`를 열었다 (템플릿에 이미 들어 있는 파일입니다. 만들거나 복사하지 않습니다)
-- [ ] frontmatter(SKILL.md 맨 위 --- 사이 설정)의 `name`이 폴더 이름과 같다 (다르면 조용히 무시됩니다)
-- [ ] 아래 점검표대로 SKILL.md를 읽었다
-- [ ] QWERTY 규칙 줄을 `Comments may be written in Korean.`으로 고쳤다
-- [ ] Copilot Agent 모드에서 `/add-educational-comments warmup/orders.py 한국어로`를 보냈다
-- [ ] `git diff --stat`에 `warmup/orders.py`만 보인다
-- [ ] `.agents/skills/spec-to-tests/SKILL.md`를 읽었다 (세션 2에서 사용)
-- [ ] agy에서 `/`를 입력했더니 스킬 목록에 `add-educational-comments`와 `spec-to-tests`가 보인다
-
-성공 기준: `git diff --stat`에 `warmup/orders.py` 한 파일만 나옵니다. 다른 파일이 바뀌었으면 `git restore <파일>`로 되돌립니다.
-
-설치 전 점검표: 내가 받은 스킬에서 찾은 것을 적습니다.
-
-| 점검 항목 | 찾은 내용 |
-| --- | --- |
-| 출처·라이선스 |  |
-| 확인 없이 실행하라는 터미널 명령 |  |
-| `scripts/` 안 파일 |  |
-| `allowed-tools` (스킬이 쓸 수 있는 도구 목록, 예: Bash) |  |
-| 외부 주소로 보내는 내용 |  |
-
-내가 만들고 싶은 스킬 하나 (name / description): 답: 
-
-참고(강사 시연): `gh skill install github/awesome-copilot <스킬>`, VS Code 마켓플레이스, `agy plugin install <GitHub 주소>`로도 스킬을 받습니다. 받는 방법은 모두 강사가 보여 주고, 오늘 실습은 템플릿에 이미 들어 있는 스킬로 합니다.
-
-Agent 모드는 세션당 2~3번만 씁니다. Agent가 명령 실행 승인을 물으면 명령 한 줄을 읽고 `pytest`, `git status`, `git diff` 류만 허용합니다. 나머지와 삭제 명령은 거절하고, ‘항상 허용’은 누르지 않습니다.
-
-> 답: 
-
-> 답: 
 
 ## 세션 2 · 명세 → 테스트 → 코드
 
@@ -283,43 +247,63 @@ AI의 “다 고쳤습니다” 보고와 실제 파일이 달랐던 적이 있�
 
 > 답: 
 
-## 세션 3 · 배포
+## 세션 3 · AI 도구 넓히기: MCP와 스킬
 
 출발점 맞추기: 늦었으면 지금 맞추고 시작합니다: `git fetch origin` → `git checkout origin/cp3-tdd -- .` → commit (README 블록 ⑩)
 
-### 3-1. 배포 체크리스트
+### 3-1. MCP 연결 기록
 
-- [ ] CI 파일을 복사하고 push 했다 (README 블록 ⑫, ⑨)
-- [ ] GitHub Actions 탭에서 초록불을 확인했다
-- [ ] Render에 로그인했다 (세션 1에서 만든 계정) (결제 수단은 등록하지 않는다)
-- [ ] New Web Service (README 블록 ⑮) → Build `pip install -r requirements.txt` / Start `uvicorn app.main:app --host 0.0.0.0 --port $PORT` / Instance Free
-- [ ] 환경 변수 `MODEL_REPO` 를 Render 서비스 설정에서만 입력했다 (값은 강사가 알려 줌. 내 PC에서는 입력하지 않습니다)
-- [ ] Settings → Build & Deploy의 Auto-Deploy를 “After CI Checks Pass”로 바꿨다 (On Commit이면 테스트가 실패해도 배포됩니다)
-- [ ] 공개 주소를 열어 리뷰 한 건을 분석했다
-- [ ] README에 내 서비스 주소를 적고 push 했다
+MCP(Model Context Protocol)는 AI에 바깥 도구를 꽂는 표준 연결입니다. 오늘은 Context7을 꽂아 AI가 라이브러리의 최신 문서를 찾게 합니다. 설정은 저장소의 `.vscode/mcp.json`에 이미 들어 있습니다.
 
-성공 기준: GitHub Actions 목록에 초록 체크가 보이고, Render 로그에 "Your service is live" 가 보입니다.
+- [ ] `.vscode/mcp.json`을 열어 `context7`과 주소 `https://mcp.context7.com/mcp`를 읽었다 (README 블록 ⑫)
+- [ ] VS Code에서 `Ctrl+Shift+P`(Mac `Cmd+Shift+P`) → `MCP: List Servers` → `context7` → `Start Server`를 눌렀다
+- [ ] 신뢰 확인 창이 뜨면 주소(`mcp.context7.com`)를 읽고 허락했다
+- [ ] Copilot Agent 모드에서 FastAPI와 Pydantic의 최신 버전을 Context7으로 찾아 달라고 부탁했다
+- [ ] AI가 알려 준 출처 주소를 열어 직접 확인했다
+- [ ] (선택) agy에도 MCP를 설정했다 (README 블록 ⑮)
 
-내 서비스 주소 (https://…onrender.com): 답: 
-
-비밀값 점검: API 키나 비밀번호는 코드에 쓰지 않고 Render 환경 변수나 GitHub Secrets에 둡니다. 오늘의 `MODEL_REPO`가 그 예입니다.
-
-무료 서버는 15분 쉬면 잠들어서 첫 요청이 느립니다. 고장이 아닙니다.
-
-Render 로그인이나 빌드가 막히면 강사 안내에 따라 Vercel로 배포합니다(`docs/03-vercel.md`). 이때는 Settings → Deployment Checks에 GitHub의 test를 추가합니다.
-
-### 3-2. 일부러 깨 보기 관찰 기록
-
-테스트 한 행을 틀리게 바꾼 뒤(0.9 → "negative") push 하고 관찰합니다. 강사 시연이 기본이고, 시간이 남으면 직접 해 봅니다.
+성공 기준: 서버 상태가 Running이고, AI의 답에 Context7을 불렀다는 표시가 보입니다.
 
 | 관찰할 것 | 내가 본 것 |
 | --- | --- |
-| GitHub Actions 결과 (색깔과 FAILED 한 줄) |  |
-| Render가 한 일 (배포했나, 건너뛰었나) |  |
-| 그동안 공개 주소의 서비스 상태 |  |
-| 되돌린 뒤 (README 블록 ⑬, `git revert HEAD --no-edit` → push) |  |
+| 서버 상태 (Running인가) |  |
+| 내가 보낸 질문 |  |
+| Context7이 찾은 FastAPI/Pydantic 최신 버전 |  |
+| 출처 주소 |  |
+| `requirements.txt`(또는 `pyproject.toml`)에 적힌 버전 |  |
+| 도구 호출에 context7이 보였나 (○ / ×) |  |
+| (선택) agy `/mcp`에 context7이 보였나 (○ / ×) |  |
 
-한 줄 정리: AGENTS.md는 AI에게 하는 ‘부탁’이고, 테스트와 CI는 어길 수 없는 ‘강제’입니다. 그 차이를 내 말로: 답: 
+### 3-2. 스킬 받고, 읽고, 고쳐 쓰기
+
+스킬 위치: `.agents/skills/<이름>/SKILL.md` (Copilot과 agy가 함께 읽는 곳입니다)
+
+- [ ] VS Code 탐색기에서 `.agents/skills/add-educational-comments/SKILL.md`를 열었다 (템플릿에 이미 들어 있는 파일입니다. 만들거나 복사하지 않습니다)
+- [ ] frontmatter(SKILL.md 맨 위 --- 사이 설정)의 `name`이 폴더 이름과 같다 (다르면 조용히 무시됩니다)
+- [ ] 아래 점검표대로 SKILL.md를 읽었다
+- [ ] QWERTY 규칙 줄을 `Comments may be written in Korean.`으로 고쳤다
+- [ ] Copilot Agent 모드에서 `/add-educational-comments warmup/orders.py 한국어로`를 보냈다
+- [ ] `git diff --stat`에 `warmup/orders.py`만 보인다
+- [ ] `.agents/skills/spec-to-tests/SKILL.md`를 열어 읽었다 (세션 2에서 쓴 스킬입니다)
+- [ ] agy에서 `/`를 입력했더니 스킬 목록에 `add-educational-comments`와 `spec-to-tests`가 보인다
+
+성공 기준: `git diff --stat`에 `warmup/orders.py` 한 파일만 나옵니다. 다른 파일이 바뀌었으면 `git restore <파일>`로 되돌립니다.
+
+설치 전 점검표: 내가 받은 스킬에서 찾은 것을 적습니다.
+
+| 점검 항목 | 찾은 내용 |
+| --- | --- |
+| 출처·라이선스 |  |
+| 확인 없이 실행하라는 터미널 명령 |  |
+| `scripts/` 안 파일 |  |
+| `allowed-tools` (스킬이 쓸 수 있는 도구 목록, 예: Bash) |  |
+| 외부 주소로 보내는 내용 |  |
+
+내가 만들고 싶은 스킬 하나 (name / description): 답: 
+
+참고(강사 시연): `gh skill install github/awesome-copilot <스킬>`, VS Code 마켓플레이스, `agy plugin install <GitHub 주소>`로도 스킬을 받습니다. 받는 방법은 모두 강사가 보여 주고, 오늘 실습은 템플릿에 이미 들어 있는 스킬로 합니다.
+
+Agent 모드는 세션당 2~3번만 씁니다. Agent가 명령 실행 승인을 물으면 명령 한 줄을 읽고 `pytest`, `git status`, `git diff` 류만 허용합니다. 나머지와 삭제 명령은 거절하고, ‘항상 허용’은 누르지 않습니다.
 
 > 답: 
 
@@ -346,9 +330,49 @@ Render 로그인이나 빌드가 막히면 강사 안내에 따라 Vercel로 배
 
 > 답: 
 
+### 3-4. AI가 틀렸을 때 고칠 문서 고르기
+
+AI가 틀렸을 때 바로 다시 부탁하지 않습니다. 같은 실수가 다시 나오지 않으려면 어느 문서를 고쳐야 하는지 먼저 고릅니다.
+
+- `SPEC.md`: 무엇을 만들지 적은 문서. 정하지 않은 것이 있으면 여기에 적습니다.
+- `AGENTS.md`: AI가 늘 지킬 규칙. 방식과 습관은 여기에 적습니다.
+- 테스트: 어길 수 없는 확인. 틀리면 바로 빨간불이 켜집니다.
+
+아래 세 상황에서 고칠 곳을 고르고 이유를 씁니다.
+
+| 상황 | 고칠 곳 (SPEC.md / AGENTS.md / 테스트) | 왜 |
+| --- | --- | --- |
+| ① 점수 0.5를 긍정으로 볼지 명세에 없어 AI가 마음대로 정함 |  |  |
+| ② AI가 주석을 계속 영어로 씀 |  |  |
+| ③ 별점 6이 그대로 들어가는데 아무 테스트도 실패하지 않음 |  |  |
+
+같은 실수가 두 번이면 AGENTS.md에 규칙 한 줄. 테스트로 잡을 수 있으면 테스트가 먼저.
+
+오늘 내가 겪은 AI의 실수 하나와 고칠 곳: 답: 
+
+> 답: 
+
+### 3-5. AGENTS.md 규칙 추가
+
+AI에게 "오늘 작업에서 같은 실수를 막으려면 AGENTS.md에 어떤 규칙을 넣으면 좋을지 제안만 해 줘. 파일은 고치지 마"라고 부탁합니다. 제안을 읽고 내가 승인한 규칙만 직접 넣습니다.
+
+| 제안받은 규칙 | 넣을 절 | 승인했나 (○ / ×) | 이유 |
+| --- | --- | --- | --- |
+|  |  |  |  |
+|  |  |  |  |
+|  |  |  |  |
+
+- [ ] 승인한 규칙을 `AGENTS.md`의 알맞은 절에 한 줄로 넣었다
+- [ ] 새 채팅을 열고 "먼저 AGENTS.md를 읽어 주세요"라고 한 뒤, 새 규칙을 지키는지 물어봤다
+- [ ] `git diff --stat`에 `AGENTS.md`만 나온다
+
+commit 메시지: 답: 
+
+agy에서는 `/learn` 으로도 돌아볼 수 있습니다.
+
 ## 세션 4 · 4-1 쿠폰 API, 4-2 새 프로젝트를 명세부터
 
-출발점 맞추기: 늦었으면 지금 맞추고 시작합니다: `git fetch origin` → `git checkout origin/cp4-ship -- .` → commit (README 블록 ⑩)
+출발점 맞추기: 늦었으면 지금 맞추고 시작합니다: `git fetch origin` → `git checkout origin/cp4-tools -- .` → commit (README 블록 ⑩)
 
 ### 4-1. 모델 관찰표: Launch → Observe → Evaluate → Improve
 
@@ -410,7 +434,7 @@ AI에게 “SPEC_COUPON.md만 보고 무엇을 어느 파일에 만들지 계획
 - [ ] 수정 범위 확인 (README 블록 ⑯): `git diff --stat`과 `git status`에 `app/`의 파일만 나오고, `tests/`와 `SPEC_COUPON.md`는 안 나왔다
 - [ ] 화면에서 쿠폰 버튼을 눌러 사과 쿠폰(`HARU-APL-`)이 나왔다
 - [ ] AI가 만든 커밋 메시지를 내가 고쳐서 commit, push 했다. 고친 메시지: 답: 
-- [ ] 배포된 화면에서 쿠폰 버튼을 두 번 눌러 같은 코드가 나오는지 봤다
+- [ ] 화면에서 쿠폰 버튼을 두 번 눌러 같은 코드가 나오는지 봤다
 
 성공 기준: 최종 `pytest -v`에 `failed`가 없습니다. 내가 만든 결과는 27 passed입니다(AI가 테스트를 더 만들었다면 더 큽니다). 강사의 완성본(`final`)은 30 passed입니다.
 
@@ -504,10 +528,10 @@ AI가 쓴 함수 하나를 골라 Copilot 또는 agy에 “이 함수를 처음 
 2. 개발 부탁 4칸 중 ‘끝났는지’를 판단하는 칸은? ① 원하는 것 ② 하지 말 것 ③ 완료 기준
 3. 명세의 세 기둥 중 ‘완료를 어떻게 증명하나’에 해당하는 것은? ① Context ② Control ③ Correctness
 4. 긍정 확률이 정확히 0.5일 때 공식 명세의 판정은? ① positive ② negative ③ 정하지 않음
-5. TDD에서 구현보다 먼저 하는 일은? ① 배포 ② 실패하는 테스트 확인(Red) ③ 코드 정리
-6. AI가 “통과했습니다”라고 했는데 `git diff --stat` 에 `tests/test_thermo.py` 가 보인다면? ① 정상이다 ② 테스트 기대값을 바꿔서 통과시킨 것일 수 있다 ③ 배포해도 된다
+5. TDD에서 구현보다 먼저 하는 일은? ① 화면 꾸미기 ② 실패하는 테스트 확인(Red) ③ 코드 정리
+6. AI가 “통과했습니다”라고 했는데 `git diff --stat` 에 `tests/test_thermo.py` 가 보인다면? ① 정상이다 ② 테스트 기대값을 바꿔서 통과시킨 것일 수 있다 ③ 그대로 commit 해도 된다
 7. 빈 리뷰를 보냈을 때 돌아오는 번호는? ① 422 ② 501 ③ 503
-8. 테스트가 실패한 코드를 push 하면 Render는? ① 그대로 배포한다 ② 배포를 건너뛰고 이전 버전이 계속 서비스된다 ③ 서비스가 멈춘다
+8. MCP는 무엇을 위한 연결인가? ① AI에 바깥 도구(예: 최신 문서 찾기)를 꽂기 위해 ② 코드를 더 빨리 실행하기 위해 ③ 테스트를 대신 통과시키기 위해
 9. 대화가 길어져 AI가 앞의 규칙을 잊었을 때 가장 좋은 대처는? ① 같은 말을 더 크게 반복한다 ② 새 채팅을 열고 AGENTS.md·SPEC.md를 붙인다 ③ 모델을 바꾼다
 10. 같은 리뷰로 쿠폰 버튼을 두 번 눌러도 같은 코드가 나오는 성질을 무엇이라 하나? ① 멱등성(여러 번 해도 결과가 같음) ② 확장성 ③ 호환성
 
@@ -521,7 +545,7 @@ AI가 쓴 함수 하나를 골라 Copilot 또는 agy에 “이 함수를 처음 
 | 2. 규칙은 파일에, 길어지면 새 채팅 |  |  |
 | 3. 코드보다 명세 먼저 |  |  |
 | 4. 판정은 테스트가 |  |  |
-| 5. 보고 말고 확인 (git diff, pytest, CI) |  |  |
+| 5. 보고 말고 확인: git diff, pytest -v로 직접 확인 |  |  |
 | 6. 설명할 수 있는 코드만 커밋 |  |  |
 
 포스트모템 표에서 가장 많이 다시 부탁한 것 하나: 답: 

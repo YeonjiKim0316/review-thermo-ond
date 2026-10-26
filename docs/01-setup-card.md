@@ -9,7 +9,7 @@ AI와 함께 코딩하며 SDD·TDD 시작하기 · 현대경제연구원 · 강�
 > 안전 규칙
 > - AI 채팅에 비밀번호, API 키, 실제 고객 정보, 회사 코드는 넣지 않습니다.
 > - 결제 수단은 어디에도 등록하지 않습니다.
-> - GitHub, Copilot, Render, agy 어디서도 카드를 등록하지 않습니다. 카드 입력 화면이 나오면 멈추고 손을 듭니다. 오늘은 전부 무료로 진행합니다.
+> - GitHub, Copilot, agy 어디서도 카드를 등록하지 않습니다. 카드 입력 화면이 나오면 멈추고 손을 듭니다. 오늘은 전부 무료로 진행합니다.
 
 이 카드대로 하면 Python, VS Code 확장, agy를 설치하고 서버까지 켭니다. VS Code와 Git이 없는 개인 PC라면 맨 아래 '개인 PC로 들을 때'부터 봅니다.
 
@@ -31,7 +31,7 @@ AI와 함께 코딩하며 SDD·TDD 시작하기 · 현대경제연구원 · 강�
 
 ```mermaid
 flowchart TD
-    A["A. 계정 만들기<br/>GitHub, Render"] --> B["B. 설치<br/>Python, 확장, agy"]
+    A["A. 계정 만들기<br/>GitHub"] --> B["B. 설치<br/>Python, 확장, agy"]
     B --> B2["저장소 받기"]
     B2 --> C["가상환경 만들기, 패키지 설치"]
     C --> D["C. push 연습"]
@@ -45,7 +45,6 @@ flowchart TD
 - [ ] 2. 내 저장소 만들기: 강사가 알려 준 템플릿 주소 → Use this template → Create a new repository
   - 이름은 `review-thermo`, 공개는 Public
   - Include all branches를 꼭 체크합니다.
-- [ ] 2-1. Render 계정 만들기: render.com → Sign up with GitHub → 이메일 인증까지 끝냅니다. 결제 수단은 넣지 않습니다. 세션 3에서 이 계정을 씁니다.
 
 카드 입력 화면이 나오면 멈추고 손을 듭니다.
 
