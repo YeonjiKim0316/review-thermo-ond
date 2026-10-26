@@ -154,6 +154,55 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
+### uv나 Poetry를 쓰는 경우 (선택)
+
+④⑤의 `python -m venv`와 `pip install` 대신 uv나 Poetry로 같은 환경을 만들 수 있습니다. 어느 쪽을 쓰든 결과는 같고, 처음 쓰는 분은 ④⑤만 따라 해도 됩니다. 설치가 끝나면 새 터미널을 엽니다.
+
+uv 설치 · Windows PowerShell
+
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+uv 설치 · macOS
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+uv로 패키지 설치와 실행 (Windows · macOS 공통)
+
+```text
+uv sync
+uv run uvicorn app.main:app --reload
+uv run pytest -v
+```
+
+Poetry 설치 · Windows PowerShell
+
+```powershell
+(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
+```
+
+Poetry 설치 · macOS
+
+```bash
+curl -sSL https://install.python-poetry.org | python3 -
+```
+
+Poetry로 패키지 설치와 실행 (Windows · macOS 공통)
+
+```text
+poetry install
+poetry run uvicorn app.main:app --reload
+poetry run pytest -v
+```
+
+- `uv sync`와 `poetry install`은 `.venv` 폴더를 만들고 패키지를 설치합니다. 가상환경을 켜는 `Activate` 명령은 필요 없습니다.
+- 이후 단계의 `python`, `pytest`, `uvicorn` 명령 앞에 `uv run`(또는 `poetry run`)을 붙입니다.
+- VS Code에서 인터프리터는 `.venv`를 고릅니다(세 방법 모두 `.venv`를 만듭니다).
+- 패키지 목록은 `requirements.txt`(pip)와 `pyproject.toml`(uv·Poetry) 두 곳에 있습니다.
+
 ⑥ 서버 켜기 (브라우저에서 http://localhost:8000)
 
 ```text
