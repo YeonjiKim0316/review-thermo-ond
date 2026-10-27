@@ -17,13 +17,14 @@
 ## 기준 문서
 
 - `SPEC.md`(1차)와 `SPEC_COUPON.md`(2차)를 따릅니다. `REQUEST.md`와 다르면 SPEC을 따릅니다.
+- 쿠폰 API의 주소와 필드 이름은 `docs/coupon-api.md`를 따릅니다. `SPEC_COUPON.md`는 사람이 쓰고, AI는 사람이 "승인"이라고 말한 뒤에만 고칩니다.
 - 규칙의 숫자와 이름은 SPEC의 예시표 그대로 씁니다. 임의로 바꾸지 않습니다.
 
 ## 만드는 파일
 
 - `app/thermo.py` : to_label, to_temperature, is_mismatch 3개 함수
 - `tests/test_thermo.py` : 내가 직접 쓴 테스트 2개 + 예시표의 나머지 행 (세션 2)
-- 쿠폰 API (세션 4): `SPEC_COUPON.md` 만 보고 `app/schemas.py`(요청/응답 모양), `app/main.py`(주소), 규칙 함수를 만듭니다. 규칙 함수를 어느 파일에 둘지는 계획을 보고 정합니다(예: `app/coupon.py`).
+- 쿠폰 API (세션 4): `SPEC_COUPON.md`와 `docs/coupon-api.md`를 보고 `app/schemas.py`(요청/응답 모양), `app/main.py`(주소), 규칙 함수를 만듭니다. 규칙 함수를 어느 파일에 둘지는 계획을 보고 정합니다(예: `app/coupon.py`).
 
 ## 실행 방법
 
@@ -32,12 +33,14 @@
 
 ## 허락 없이 고치면 안 되는 파일
 
-- `REQUEST.md`, `SPEC.md`, `SPEC_COUPON.md`
+- `REQUEST.md`, `SPEC.md`
+- `SPEC_COUPON.md` (내가 쓰는 문서입니다. 내가 "승인"이라고 한 뒤에만 고칩니다)
+- `docs/coupon-api.md` (화면이 이미 쓰는 약속입니다)
 - `tests/test_api.py`, `tests/test_api_coupon.py`, `tests/conftest.py`
 - `static/` 폴더 전체
 - `app/sentiment.py`, `app/deps.py`
 - `app/main.py`, `app/schemas.py` (세션 4에서 쿠폰 API를 만들 때만 고칩니다. 그 전에는 고치지 않습니다)
-- `.agents/skills/` 폴더, `.vscode/mcp.json`
+- `.agents/skills/` 폴더, `.vscode/mcp.json` (내가 직접 고칩니다. AI는 고치기 전에 먼저 물어봅니다)
 - 내가 하지 말라고 하고 싶은 것: <!-- 빈칸: 내가 꼭 막고 싶은 행동 한 가지 (예: 새 패키지 설치) -->
 
 ## 일하는 방법

@@ -7,7 +7,7 @@
 가상 쇼핑몰 하루마켓의 리뷰 한 건과 별점을 넣으면, 긍정/부정과 리뷰 온도(0~100℃), 별점과 내용이 반대인지 알려 주는 API와 화면입니다. 하루마켓은 수업용 가상 서비스입니다.
 
 - 개발요청서: [REQUEST.md](REQUEST.md)
-- 공식 명세서(무엇을 만들지 적은 문서): [SPEC.md](SPEC.md) (1차), [SPEC_COUPON.md](SPEC_COUPON.md) (2차, 쿠폰 API 명세서. 세션 4에서 받습니다)
+- 공식 명세서(무엇을 만들지 적은 문서): [SPEC.md](SPEC.md) (1차), `SPEC_COUPON.md` (2차, 쿠폰 명세서. 세션 4에서 직접 씁니다)
 
 Python, VS Code 확장, agy는 세션 1에서 설치합니다. 순서는 [docs/01-setup-card.md](docs/01-setup-card.md) B절을 따릅니다. 설치가 끝나면 블록 ①로 확인합니다.
 
@@ -23,14 +23,14 @@ flowchart LR
     D --> E["commit / push"]
 ```
 
-세션 3에서는 이 순서에 "MCP·스킬로 도구 넓히기"를 더합니다.
+세션 3에서는 이 순서에 "MCP·스킬을 찾아 붙이기"를 더합니다. 세션 4에서는 명세를 직접 쓰는 것부터 시작합니다.
 
 ## 안전 규칙
 
 - AI 채팅에 비밀번호, API 키, 실제 고객 정보, 회사 코드는 넣지 않습니다.
 - agy 로그인 때 Google 비밀번호는 로그인 화면에만 입력합니다. AI 채팅에는 넣지 않습니다.
 - 결제 수단은 어디에도 등록하지 않습니다.
-- MCP 서버를 켤 때 뜨는 신뢰 확인 창에서는 주소를 읽습니다. 오늘 쓰는 주소는 `mcp.context7.com`입니다. 처음 보는 주소는 허락하지 않습니다.
+- MCP 서버를 켤 때 뜨는 신뢰 확인 창에서는 주소를 읽습니다. 주소를 읽고 내가 직접 넣은 주소만 허락합니다. 처음 보는 주소는 허락하지 않습니다.
 
 ## 로컬 실행
 
@@ -87,7 +87,7 @@ pytest -v
 
 ## 명령 복사 블록
 
-GitHub 화면에서 코드 블록 오른쪽 위의 복사 버튼으로 복사해 터미널에 붙여 넣습니다. 번호는 수업 슬라이드의 "README ⑥ 복사" 표시와 같습니다. ⑫⑮는 세션 3에서, ⑭⑯⑰은 세션 4에서 새로 쓰는 블록입니다.
+GitHub 화면에서 코드 블록 오른쪽 위의 복사 버튼으로 복사해 터미널에 붙여 넣습니다. 번호는 수업 슬라이드의 "README ⑥ 복사" 표시와 같습니다. ⑫⑮는 세션 3에서, ⑭⑯은 세션 4에서, ⑰은 선택 과제에서 새로 쓰는 블록입니다.
 꺾쇠 `< >`는 빼고 내 값으로 바꿉니다. 예: `<내아이디>`는 `haru123`.
 
 ① 설치 확인 (Mac은 `python --version` 대신 `python3 --version`)
@@ -233,19 +233,35 @@ git fetch origin
 git checkout origin/cp2-spec -- SPEC.md
 ```
 
-⑫ MCP 설정 보기 (macOS)
+⑫ MCP 서버 추가 (세션 3)
 
-```bash
-cat .vscode/mcp.json
+VS Code에서 서버를 추가하는 방법은 두 가지입니다. 편한 쪽을 하나 고릅니다.
+
+방법 1. 메뉴로 추가합니다.
+
+1. Windows `Ctrl+Shift+P`, Mac `Cmd+Shift+P`를 누르고 `MCP: Add Server`를 고릅니다.
+2. `HTTP`를 고르고 서버 주소를 붙여 넣습니다.
+3. 이름을 정하고(예: `paperdoll-tools`), 저장 위치는 `Workspace`를 고릅니다.
+4. `.vscode/mcp.json` 파일이 만들어집니다.
+
+방법 2. `.vscode/mcp.json` 파일을 직접 만들어 아래 내용을 붙여 넣습니다. 강사가 알려 주는 서버(`paperdoll-tools`)와 내가 고른 서버(예시: `context7`)가 함께 들어 있습니다.
+
+```json
+{
+  "servers": {
+    "paperdoll-tools": {
+      "type": "http",
+      "url": "https://thisispaperdoll-mcp-test.hf.space/mcp"
+    },
+    "context7": {
+      "type": "http",
+      "url": "https://mcp.context7.com/mcp"
+    }
+  }
+}
 ```
 
-⑫ MCP 설정 보기 (Windows PowerShell)
-
-```powershell
-Get-Content .vscode\mcp.json
-```
-
-VS Code에서 Ctrl+Shift+P → MCP: List Servers → context7 → Start Server (Mac은 Cmd+Shift+P)
+서버를 켭니다. `Ctrl+Shift+P`(Mac은 `Cmd+Shift+P`) → `MCP: List Servers` → 서버 이름 → `Start Server`. 서버를 켤 때 뜨는 신뢰 확인 창에서는 주소를 읽고 허락합니다. 그다음 Copilot Chat을 Agent 모드로 두고 도구 아이콘을 눌러 도구가 보이는지 확인합니다.
 
 ⑬ 되돌리고 다시 올리기
 
@@ -254,14 +270,18 @@ git revert HEAD --no-edit
 git push
 ```
 
-⑭ 쿠폰 API 명세와 계약 테스트 받기 (세션 4)
+⑭ 공식 쿠폰 명세와 계약 테스트 받기 (세션 4, 비교용)
+
+내가 쓴 `SPEC_COUPON.md`는 그대로 두고, 공식 명세는 `SPEC_COUPON_OFFICIAL.md`라는 다른 이름으로 받습니다.
 
 ```text
 git fetch origin
-git checkout origin/cp5-coupon-spec -- SPEC_COUPON.md tests/test_api_coupon.py
+git checkout origin/cp5-coupon-spec -- SPEC_COUPON_OFFICIAL.md tests/test_api_coupon.py
 ```
 
-⑮ agy MCP 설정 (선택)
+비교가 끝나면 agent에게 이 두 파일을 지워 달라고 합니다. 비교용이라서 commit 하지 않습니다. 지운 뒤 테스트를 돌려 내가 쓴 테스트가 모두 통과하는지 확인합니다.
+
+⑮ agy MCP 설정 (세션 3, 선택)
 
 macOS:
 
@@ -280,6 +300,9 @@ New-Item -ItemType Directory -Force "$HOME\.gemini\config"; code "$HOME\.gemini\
 ```json
 {
   "mcpServers": {
+    "paperdoll-tools": {
+      "serverUrl": "https://thisispaperdoll-mcp-test.hf.space/mcp"
+    },
     "context7": {
       "serverUrl": "https://mcp.context7.com/mcp"
     }
@@ -287,7 +310,7 @@ New-Item -ItemType Directory -Force "$HOME\.gemini\config"; code "$HOME\.gemini\
 }
 ```
 
-저장한 뒤 agy를 다시 켜고 /mcp 로 확인합니다. 파일에 이미 내용이 있으면 mcpServers 안에 context7 부분만 추가합니다.
+저장한 뒤 agy를 다시 켜고 /mcp 로 확인합니다. 파일에 이미 내용이 있으면 mcpServers 안에 위 두 서버 부분만 추가합니다.
 
 ⑯ 수정 범위 확인 (세션 4: 쿠폰. `git restore`는 `tests/`나 `SPEC_COUPON.md`가 바뀌었을 때만)
 
@@ -297,7 +320,7 @@ git status
 git restore tests/ SPEC_COUPON.md
 ```
 
-⑰ 새 프로젝트 폴더 만들기 (세션 4-2. review-thermo의 서버·agy·가상환경을 끈 뒤)
+⑰ 새 프로젝트 폴더 만들기 (선택 과제. review-thermo의 서버·agy·가상환경을 끈 뒤)
 
 macOS:
 
@@ -338,5 +361,6 @@ code -r .
 | 00 (항상) | [개념 노트](docs/00-concepts.md) · [용어 사전](docs/00-glossary.md) · [화면 메시지 사전](docs/00-troubleshooting.md) |
 | 1 | [환경설정 카드](docs/01-setup-card.md) · [Copilot과 agy 사용 안내](docs/01-copilot-guide.md) · [프롬프트 시트](docs/01-prompt-sheet.md) |
 | 2 | [pytest 소개](docs/02-pytest.md) |
-| 3 | 별도 문서 없음. 저장소의 `.vscode/mcp.json`과 `.agents/skills/` 폴더를 씁니다 |
-| 4 | [3차 요청서 · 리뷰 클린봇](docs/04-cleanbot-request.md) |
+| 3 | 별도 문서 없음. 내가 만드는 `.vscode/mcp.json`과 `.agents/skills/` 폴더를 씁니다 |
+| 4 | [쿠폰 API 약속](docs/coupon-api.md) (화면이 이미 쓰는 주소) |
+| 선택 과제 | [3차 요청서 · 리뷰 클린봇](docs/04-cleanbot-request.md) |
