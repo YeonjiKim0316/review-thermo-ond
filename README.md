@@ -25,18 +25,6 @@ flowchart LR
 
 세션 3에서는 이 순서에 "MCP·스킬로 도구 넓히기"를 더합니다.
 
-## 워크북
-
-수업 활동지는 [WORKBOOK.md](WORKBOOK.md)입니다. VS Code에서 열어 직접 채웁니다.
-
-1. 처음 한 번: VS Code 탐색기에서 `WORKBOOK.md`를 복사해 `notes/MY_WORKBOOK.md`로 붙여 넣습니다. 터미널로 한다면 아래 명령을 씁니다.
-   - macOS: `mkdir -p notes && cp WORKBOOK.md notes/MY_WORKBOOK.md`
-   - Windows PowerShell: `mkdir notes; copy WORKBOOK.md notes\MY_WORKBOOK.md`
-2. 내 답은 `notes/MY_WORKBOOK.md`에만 씁니다. 따라잡기 명령(블록 ⑩)은 `WORKBOOK.md`를 원래대로 덮어쓰지만 `notes/` 안의 내 파일은 건드리지 않습니다.
-3. 미리보기는 `Ctrl+Shift+V`(Mac `Cmd+Shift+V`)입니다. 체크 칸은 `- [ ]`를 `- [x]`로 바꿉니다. 표의 빈칸은 `|  |` 두 선 사이에 씁니다.
-4. 세션이 끝날 때마다 저장하고 commit, push 합니다(블록 ⑨).
-5. `notes/MY_WORKBOOK.md`는 내 GitHub 저장소(공개)에 올라갑니다. 개인 정보, API 키, 비밀번호는 쓰지 않습니다.
-
 ## 안전 규칙
 
 - AI 채팅에 비밀번호, API 키, 실제 고객 정보, 회사 코드는 넣지 않습니다.
