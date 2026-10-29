@@ -30,7 +30,7 @@ flowchart LR
 - AI 채팅에 비밀번호, API 키, 실제 고객 정보, 회사 코드는 넣지 않습니다.
 - agy 로그인 때 Google 비밀번호는 로그인 화면에만 입력합니다. AI 채팅에는 넣지 않습니다.
 - 결제 수단은 어디에도 등록하지 않습니다.
-- MCP 서버를 켤 때 뜨는 신뢰 확인 창에서는 주소를 읽습니다. 주소를 읽고 내가 직접 넣은 주소만 허락합니다. 처음 보는 주소는 허락하지 않습니다.
+- MCP 서버를 켤 때 뜨는 신뢰 확인 창에서는 명령이나 주소를 읽습니다. 내가 직접 넣은 것만 허락하고, 처음 보는 것은 허락하지 않습니다.
 
 ## 로컬 실행
 
@@ -40,7 +40,7 @@ flowchart LR
 - VS Code를 처음 열면 "이 폴더를 신뢰합니까?" 창이 뜹니다. Yes, I trust를 누르고, 추천 확장 알림은 닫습니다.
 - VS Code에 확장 두 개가 필요합니다. 왼쪽 Extensions(네모 4개 아이콘)에서 `Python`(Microsoft)과 `GitHub Copilot Chat`을 검색해 Install 합니다.
 - Mac은 편집기 단축키에서만 `Ctrl` 대신 `Cmd`를 씁니다. 터미널의 서버 종료 `Ctrl+C`는 Mac도 `Ctrl`입니다.
-- 내 PC에서는 `MODEL_REPO`를 입력하지 않습니다. 모델 저장소 이름(`thisispaperdoll/review-thermo-onnx`)은 코드(`app/sentiment.py`)에 들어 있습니다.
+- 내 PC에서는 `MODEL_REPO`를 입력하지 않습니다. 모델 저장소 이름은 코드(`app/sentiment.py`)에 들어 있습니다.
 
 `(.venv)`는 가상환경(이 프로젝트만 쓰는 파이썬 상자)이 켜졌다는 표시입니다.
 
@@ -235,25 +235,52 @@ git checkout origin/cp2-spec -- SPEC.md
 
 ⑫ MCP 서버 추가 (세션 3)
 
+Context7은 `npx`로 내 PC에서 돌리는 방식과 인터넷의 서버에 접속하는 http 방식이 있습니다. 두 방식을 모두 붙여 봅니다. 먼저 `npx`가 필요하므로 Node.js를 설치합니다(18 이상).
+
+Windows PowerShell:
+
+```powershell
+winget install OpenJS.NodeJS.LTS
+```
+
+설치가 끝나면 터미널(VS Code 포함)을 모두 닫았다가 다시 엽니다.
+
+macOS:
+
+```bash
+brew install node
+```
+
+Homebrew가 없으면 https://nodejs.org 에서 LTS 설치 파일을 받아 설치합니다. 설치 뒤 터미널(VS Code 포함)을 다시 엽니다.
+
+확인(공통). 둘 다 버전 숫자가 나오면 됩니다.
+
+```text
+node -v
+npx -v
+```
+
+PowerShell에서 `npx`가 실행 정책 오류를 내면 세션 1에서 한 `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`를 다시 실행합니다.
+
 VS Code에서 서버를 추가하는 방법은 두 가지입니다. 편한 쪽을 하나 고릅니다.
 
 방법 1. 메뉴로 추가합니다.
 
 1. Windows `Ctrl+Shift+P`, Mac `Cmd+Shift+P`를 누르고 `MCP: Add Server`를 고릅니다.
-2. `HTTP`를 고르고 서버 주소를 붙여 넣습니다.
-3. 이름을 정하고(예: `paperdoll-tools`), 저장 위치는 `Workspace`를 고릅니다.
+2. `Command (stdio)`(또는 `Browse MCP Servers`)를 고르고, npm 방식은 명령에 `npx -y @upstash/context7-mcp`를 붙여 넣습니다.
+3. 이름을 `context7`로 하고, 저장 위치는 `Workspace`를 고릅니다.
 4. `.vscode/mcp.json` 파일이 만들어집니다.
 
-방법 2. `.vscode/mcp.json` 파일을 직접 만들어 아래 내용을 붙여 넣습니다. 강사가 알려 주는 서버(`paperdoll-tools`)와 내가 고른 서버(예시: `context7`)가 함께 들어 있습니다.
+방법 2. 프로젝트 맨 위에 `.vscode` 폴더를 만들고 `.vscode/mcp.json` 파일에 아래 내용을 붙여 넣습니다. npm 방식(`context7`)과 http 방식(`context7-http`)이 함께 들어 있습니다.
 
 ```json
 {
   "servers": {
-    "paperdoll-tools": {
-      "type": "http",
-      "url": "https://thisispaperdoll-mcp-test.hf.space/mcp"
-    },
     "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"]
+    },
+    "context7-http": {
       "type": "http",
       "url": "https://mcp.context7.com/mcp"
     }
@@ -261,7 +288,7 @@ VS Code에서 서버를 추가하는 방법은 두 가지입니다. 편한 쪽�
 }
 ```
 
-서버를 켭니다. `Ctrl+Shift+P`(Mac은 `Cmd+Shift+P`) → `MCP: List Servers` → 서버 이름 → `Start Server`. 서버를 켤 때 뜨는 신뢰 확인 창에서는 주소를 읽고 허락합니다. 그다음 Copilot Chat을 Agent 모드로 두고 도구 아이콘을 눌러 도구가 보이는지 확인합니다.
+서버를 켭니다. `Ctrl+Shift+P`(Mac은 `Cmd+Shift+P`) → `MCP: List Servers` → 서버 이름 → `Start Server`. 서버를 켤 때 뜨는 신뢰 확인 창에서는 명령이나 주소를 읽고 허락합니다. 그다음 Copilot Chat을 Agent 모드로 두고 도구 아이콘을 눌러 도구가 보이는지 확인합니다.
 
 ⑬ 되돌리고 다시 올리기
 
@@ -283,34 +310,39 @@ git checkout origin/cp5-coupon-spec -- SPEC_COUPON_OFFICIAL.md tests/test_api_co
 
 ⑮ agy MCP 설정 (세션 3, 선택)
 
-macOS:
-
-```bash
-mkdir -p ~/.gemini/config && code ~/.gemini/config/mcp_config.json
-```
+agy는 프로젝트 폴더의 `.agents/mcp_config.json` 파일을 읽습니다. 프로젝트 맨 위에 `.agents` 폴더가 이미 있으니, 그 안에 파일을 만듭니다.
 
 Windows PowerShell:
 
 ```powershell
-New-Item -ItemType Directory -Force "$HOME\.gemini\config"; code "$HOME\.gemini\config\mcp_config.json"
+code .agents\mcp_config.json
 ```
 
-열린 파일에 아래 내용을 붙여 넣습니다.
+macOS:
+
+```bash
+code .agents/mcp_config.json
+```
+
+열린 파일에 아래 내용을 붙여 넣습니다. npm 방식(`context7`)과 http 방식(`context7-http`)이 함께 들어 있습니다.
 
 ```json
 {
   "mcpServers": {
-    "paperdoll-tools": {
-      "serverUrl": "https://thisispaperdoll-mcp-test.hf.space/mcp"
-    },
     "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"]
+    },
+    "context7-http": {
       "serverUrl": "https://mcp.context7.com/mcp"
     }
   }
 }
 ```
 
-저장한 뒤 agy를 다시 켜고 /mcp 로 확인합니다. 파일에 이미 내용이 있으면 mcpServers 안에 위 두 서버 부분만 추가합니다.
+저장한 뒤 agy를 다시 켜고 `/mcp list`로 확인합니다.
+
+모든 프로젝트에서 같이 쓰고 싶으면 내 계정 폴더의 `~/.gemini/config/mcp_config.json`에 같은 내용을 넣을 수도 있습니다. 오늘은 프로젝트 안의 파일을 씁니다. 파일에 이미 내용이 있으면 `mcpServers` 안에 위 두 서버 부분만 추가합니다.
 
 ⑯ 수정 범위 확인 (세션 4: 쿠폰. `git restore`는 `tests/`나 `SPEC_COUPON.md`가 바뀌었을 때만)
 
@@ -361,6 +393,6 @@ code -r .
 | 00 (항상) | [개념 노트](docs/00-concepts.md) · [용어 사전](docs/00-glossary.md) · [화면 메시지 사전](docs/00-troubleshooting.md) |
 | 1 | [환경설정 카드](docs/01-setup-card.md) · [Copilot과 agy 사용 안내](docs/01-copilot-guide.md) · [프롬프트 시트](docs/01-prompt-sheet.md) |
 | 2 | [pytest 소개](docs/02-pytest.md) |
-| 3 | 별도 문서 없음. 내가 만드는 `.vscode/mcp.json`과 `.agents/skills/` 폴더를 씁니다 |
-| 4 | [쿠폰 API 약속](docs/coupon-api.md) (화면이 이미 쓰는 주소) |
+| 3 | 별도 문서 없음. 내가 만드는 `.vscode/mcp.json`, `.agents/mcp_config.json`과 `.agents/skills/` 폴더를 씁니다 |
+| 4 | 별도 문서 없음. 내가 쓰는 `SPEC_COUPON.md`를 씁니다. 주소와 요청·응답 모양은 지금 서비스 코드(화면이 부르는 곳)를 AI가 읽고 알려 줍니다 |
 | 선택 과제 | [3차 요청서 · 리뷰 클린봇](docs/04-cleanbot-request.md) |

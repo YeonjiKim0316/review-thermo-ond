@@ -155,7 +155,7 @@ AI에게 다시 보낸 프롬프트를 적습니다. 처음부터 잘 됐다면 
 나쁜 프롬프트: `쿠폰도 되게 해 줘` (어느 파일에? 어떤 규칙? 끝은 언제?)
 
 ```text
-[원하는 것] SPEC_COUPON.md 와 docs/coupon-api.md 를 보고 쿠폰 API를 만들어 줘. AGENTS.md 를 먼저 읽어.
+[원하는 것] SPEC_COUPON.md 를 보고 쿠폰 API를 만들어 줘. 주소와 요청·응답 모양은 화면(static/)이 부르는 대로 맞춰. AGENTS.md 를 먼저 읽어.
 [방법 힌트] Pydantic 모델(요청, 응답) → 라우트 → 규칙 함수 순서로 만들어. AI 부품은 app/deps.py 의 get_predict 를 Depends 로 받아 써.
 [하지 말 것] SPEC_COUPON.md 와 tests/ 는 건드리지 마. static/ 와 app/sentiment.py, app/deps.py 도 고치지 마.
 [완료 기준] pytest 의 passed, failed 개수와 바꾼 파일 목록을 알려 줘.

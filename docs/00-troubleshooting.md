@@ -65,9 +65,12 @@ pytest 화면 읽는 법은 [pytest 소개](02-pytest.md)에 있습니다.
 | Copilot이 답이 없다 | 로그인 또는 연결 문제 | `docs/01-copilot-guide.md`의 상태 점검 |
 | agy가 답이 없거나 로그인 화면이 계속 나옴 | 로그인 또는 연결 문제 | 내 Google 계정으로 다시 로그인합니다. 비밀번호는 로그인 화면에만 입력합니다. 안 되면 손을 듭니다 |
 | agy 사용 한도가 끝남 | agy 사용량이 끝났습니다 | 아래 "한도가 끝났을 때" |
+| `npx`를 찾을 수 없음 (`npx : 용어가 ... 인식되지 않습니다` · `command not found: npx`) | Node.js가 없거나, 설치한 뒤 터미널을 다시 열지 않았습니다 | Node.js를 설치하고(README 블록 ⑫) 터미널과 VS Code를 모두 닫았다가 다시 엽니다. `node -v`와 `npx -v`에 버전이 나오는지 확인합니다 |
+| PowerShell에서 `npx`가 "스크립트 실행이 차단됨"이라고 함 | 윈도우 실행 정책 때문입니다 | `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`(한 번만, 묻는 창에 `Y`) 후 터미널을 다시 엽니다 |
+| agy에서 `/mcp list`에 서버가 없음 | agy가 설정 파일을 못 읽었습니다 | 파일이 프로젝트 맨 위 `.agents/mcp_config.json`에 있는지, 안에 `mcpServers`가 있는지 확인한 뒤 agy를 껐다가 다시 켭니다 |
 | MCP: List Servers에 내가 추가한 서버가 없음 | `.vscode/mcp.json` 설정을 못 읽었습니다 | `.vscode/mcp.json`이 저장소 맨 위 `.vscode` 폴더에 있는지, VS Code를 저장소 폴더로 열었는지 확인합니다 |
 | Start 후 Error | 서버가 켜지지 못했습니다 | Show Output에서 원인을 확인합니다. 네트워크 차단이면 강사에게 알립니다 |
-| 신뢰 확인 창 | MCP 서버를 처음 켤 때 나오는 확인입니다 | 주소를 읽고, 내가 직접 넣은 주소만 허락합니다 |
+| 신뢰 확인 창 | MCP 서버를 처음 켤 때 나오는 확인입니다 | 명령이나 주소를 읽고, 내가 직접 넣은 것만 허락합니다 |
 | 스킬을 열면 `Failed to parse frontmatter` · `Nested mappings are not allowed` | SKILL.md 맨 위 `---` 사이 값에 `: `(콜론+공백)이 들어 있음 | 그 값을 큰따옴표로 감쌉니다. 예: `argument-hint: "함수 이름들 (예: to_label)"` |
 
 ### 한도가 끝났을 때
@@ -122,7 +125,7 @@ flowchart TD
 | `cp1-setup` | AGENTS.md 빈칸이 채워진 상태 | 세션 1 끝 |
 | `cp2-spec` | 공식 `SPEC.md` | 세션 2 명세 단계 |
 | `cp3-tdd` | `app/thermo.py` 구현과 `tests/test_thermo.py` (내가 쓴 테스트 파일은 공식 파일로 바뀝니다) | 세션 2 끝 |
-| `cp4-tools` | `.vscode/mcp.json`에 서버 두 개가 들어 있고, `.agents/skills/add-educational-comments/SKILL.md`의 주석 규칙을 한국어에 맞게 고친 상태 | 세션 3 끝 |
+| `cp4-tools` | `.vscode/mcp.json`과 `.agents/mcp_config.json`에 Context7 두 개(`context7`, `context7-http`)가 들어 있고, `.agents/skills/add-educational-comments/SKILL.md`의 주석 규칙을 한국어에 맞게 고친 상태 | 세션 3 끝 |
 | `cp5-coupon-spec` | `SPEC_COUPON_OFFICIAL.md`(공식 쿠폰 명세, 비교용)와 `tests/test_api_coupon.py`(계약 테스트). 쿠폰 코드는 없음 | 세션 4 비교 단계 |
 | `final` | 완성본. 쿠폰 코드와 단위 테스트 예시까지 | 세션 4 끝 |
 
@@ -130,4 +133,4 @@ flowchart TD
 
 ## 회사·학교 네트워크에서 막힐 때
 
-GitHub, Hugging Face(hf.space), Context7(mcp.context7.com) 접속이 막힐 수 있습니다. 붙잡고 씨름하지 않습니다. 손을 들고, 강사 화면을 같이 보거나 따라잡기 브랜치로 넘어갑니다.
+GitHub, npm 저장소(registry.npmjs.org), Context7(mcp.context7.com) 접속이 막힐 수 있습니다. 붙잡고 씨름하지 않습니다. 손을 들고, 강사 화면을 같이 보거나 따라잡기 브랜치로 넘어갑니다.
